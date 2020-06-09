@@ -22,6 +22,29 @@ module.exports = class Game {
         return this._state;
     }
 
+    _playMove(token, row, col) {
+        this._state[row][col] = token;
+    }
+
+    complete() {
+        // play a game to completion from the current state
+        while(!this.gameIsOver(this._state)) {
+            let moveOne = this._playerOne.play(this._state, 'o');
+            this._playMove('o', moveOne.row, moveOne.col);
+
+            if(!this.gameIsOver(this._state)) {
+                let moveTwo = this._playerTwo.play(this._state, 'x');
+                this._playMove('x', moveTwo.row, moveTwo.col);
+            }
+        }
+
+        console.log(this._state);
+    }
+
+    // possible TODO:
+    // - method to play a pair of moves (one for each player)
+    // - method to play a single move (more complex, as we will need to maintain state or infer it on the way in)
+
     stateIsValid(state) {
         // TODO
         /* some things to test:
